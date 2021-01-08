@@ -1,0 +1,7 @@
+.Layout {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(90deg, #7F00D7 0%, #8A0012 100%);
+}
+
