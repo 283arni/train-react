@@ -1,4 +1,5 @@
 import classes from './FinishedQuiz.module.css'
+import ButtonRepeat from "../ButtonRepeat/ButtonRepeat";
 
 
 const FinishedQuiz = (props) => {
@@ -17,7 +18,7 @@ const FinishedQuiz = (props) => {
               >
                 <span>{item.questionId}. </span>
                 {item.question}
-                <i className={iconType} />
+                <i className={iconType}/>
               </li>
             )
           })
@@ -26,12 +27,18 @@ const FinishedQuiz = (props) => {
 
       <div>Правильно {currentAnswers.length} из {props.quizLength}</div>
 
-      <button
-        type={'button'}
-        onClick={() => props.onResetClick()}
+
+      <ButtonRepeat
+        onResetClick={props.onResetClick}
+        type='primary'
       >
         Повторить
-      </button>
+      </ButtonRepeat>
+      <ButtonRepeat
+        type='success'
+      >
+        Перейти к другим тестам
+      </ButtonRepeat>
     </div>
   )
 }

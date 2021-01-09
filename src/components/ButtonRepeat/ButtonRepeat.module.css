@@ -1,0 +1,25 @@
+.ButtonRepeat {
+    padding: 5px 10px;
+    border: transparent;
+    color: white;
+    border-radius: 3px;
+    font-weight: bold;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.ButtonRepeat:hover {
+    opacity: 0.8;
+}
+
+.ButtonRepeat:active {
+    opacity: 0.6;
+}
+
+.ButtonRepeat.success {
+    background: green;
+}
+
+.ButtonRepeat.primary {
+    background: darkblue;
+}

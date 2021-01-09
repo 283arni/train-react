@@ -1,0 +1,51 @@
+.MenuNav {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.MenuNav.close {
+    right: 100%;
+}
+
+.MenuNav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    transition: 0.3s;
+    background: mediumpurple;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+
+.MenuNav li {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.MenuNav a {
+    color: white;
+}
+
+.MenuNav a:hover {
+    opacity: 0.8;
+}
+
+.MenuNav a:active {
+    opacity: 0.5;
+}
+
+.MenuNav.close ul {
+    transform: translateX(-100%);
+}

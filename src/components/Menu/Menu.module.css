@@ -1,0 +1,19 @@
+.Menu {
+    color: white;
+    cursor: pointer;
+}
+
+.Menu:hover {
+    opacity: 0.8;
+}
+
+.Menu:active {
+    opacity: 0.5;
+}
+
+.open {
+    position: absolute;
+    top: 10px;
+    left: 230px;
+    z-index: 200;
+}
