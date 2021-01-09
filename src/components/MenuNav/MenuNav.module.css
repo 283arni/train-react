@@ -36,13 +36,15 @@
 
 .MenuNav a {
     color: white;
+    text-decoration: none;
 }
 
 .MenuNav a:hover {
     opacity: 0.8;
 }
 
-.MenuNav a:active {
+.MenuNav a:active,
+.active {
     opacity: 0.5;
 }
 

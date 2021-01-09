@@ -20,6 +20,7 @@ class Layout extends Component {
       <div className={classes.Layout}>
         <MenuNav
           isOpen={this.state.isOpen}
+          onOpenMenuClick={this.handleOpenMenuClick}
         />
         <div className={classes.nav}>
           <Menu

@@ -6,7 +6,7 @@ const ButtonRepeat = (props) => {
   return (
     <button
       className={`${classes.ButtonRepeat} ${classes[props.type]}`}
-      onClick={() => props.onResetClick()}
+      onClick={props.onResetClick ? () => props.onResetClick() : null}
     >
       {props.children}
     </button>

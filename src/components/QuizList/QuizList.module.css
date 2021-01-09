@@ -1,0 +1,22 @@
+.QuizList {
+    color: white;
+}
+
+.QuizList ul {
+    list-style: none;
+    padding: 0;
+}
+
+.QuizList a {
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.QuizList a:hover {
+    color: wheat;
+}
+
+.QuizList a:active {
+    filter: blur(1px);
+}

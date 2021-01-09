@@ -1,5 +1,6 @@
 import classes from './FinishedQuiz.module.css'
 import ButtonRepeat from "../ButtonRepeat/ButtonRepeat";
+import {Link} from "react-router-dom";
 
 
 const FinishedQuiz = (props) => {
@@ -34,11 +35,14 @@ const FinishedQuiz = (props) => {
       >
         Повторить
       </ButtonRepeat>
-      <ButtonRepeat
-        type='success'
-      >
-        Перейти к другим тестам
-      </ButtonRepeat>
+      <Link to="/">
+        <ButtonRepeat
+          type='success'
+        >
+          Перейти к другим тестам
+
+        </ButtonRepeat>
+      </Link>
     </div>
   )
 }
