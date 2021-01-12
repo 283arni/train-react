@@ -4,10 +4,11 @@ import Auth from "./components/Auth/Auth";
 import QuizCreator from "./components/QuizCreator/QuizCreator";
 import QuizList from "./components/QuizList/QuizList";
 import {Route, Switch} from 'react-router-dom';
+import classes from './App.module.css'
 
 function App() {
   return (
-    <div className="App">
+    <div className={classes.App}>
       <Layout>
         <Switch>
           <Route exact path="/auth" component={Auth}/>

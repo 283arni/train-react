@@ -23,3 +23,9 @@
 .ButtonRepeat.primary {
     background: darkblue;
 }
+
+.ButtonRepeat:disabled {
+    background: lightgrey;
+    cursor: not-allowed;
+    opacity: 1;
+}
