@@ -16,6 +16,7 @@ const Field = (props) => {
         id={props.idField}
         onChange={(e) => props.onFieldChange(e, props.idField)}
         autoComplete="no"
+        value={props.value}
       />
 
       {

@@ -2,7 +2,7 @@ const createControl = (config, validation) => {
   return {
     ...config,
     validation,
-    valid: !validation,
+    valid: true,
     touched: false,
     value: ''
   }
