@@ -42,12 +42,37 @@ class Auth extends Component {
     }
   }
 
-  handleLoginClick = () => {
+  handleLoginClick = async () => {
+    const bodyApi = {
+      email: this.state.fields.email.value,
+      password: this.state.fields.password.value,
+      returnSecureToken: true
+    }
 
+    try {
+      const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAumffZq-Y6oK0Iu0JfZBJ0awzhYVl57ec', {method: "POST", body: JSON.stringify(bodyApi)})
+        .then((response) => response.json())
+      console.log(response)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
-  handleRegisterClick = () => {
+  handleRegisterClick = async () => {
+    console.log('sdsdd')
+    const bodyApi = {
+      email: this.state.fields.email.value,
+      password: this.state.fields.password.value,
+      returnSecureToken: true
+    }
 
+    try {
+      const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAumffZq-Y6oK0Iu0JfZBJ0awzhYVl57ec', {method: "POST", body: JSON.stringify(bodyApi)})
+        .then((response) => response.json())
+      console.log(response)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
 
@@ -115,14 +140,14 @@ class Auth extends Component {
 
           <ButtonRepeat
             type="success"
-            onLoginClick={this.handleLoginClick}
+            onResetClick={this.handleLoginClick}
             disabled={!this.state.isFormValid}
           >
             Войти
           </ButtonRepeat>
           <ButtonRepeat
             type="primary"
-            onRegisterClick={this.handleRegisterClick}
+            onResetClick={this.handleRegisterClick}
             disabled={!this.state.isFormValid}
           >
             Зарегистрироваться

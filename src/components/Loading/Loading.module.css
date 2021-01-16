@@ -1,0 +1,59 @@
+
+@keyframes Loading { 0% { transform: rotate(0) } 100% { transform: rotate(360deg); } }
+.Loading > div {
+    animation: Loading 1s infinite linear;
+    transform-origin: 100px 100px;
+}
+
+.align {
+    text-align: center;
+}
+
+.Loading > div div { position: absolute; }
+
+.Loading > div div:nth-child(1), .Loading > div div:nth-child(2) {
+    width: 140px;
+    height: 140px;
+    border: 16px solid;
+    border-radius: 50%;
+    border-color: transparent #87d6e6 #87d6e6 #87d6e6;
+    box-sizing: border-box;
+    position: absolute;
+    transform: rotate(45deg);
+    transform-origin: 100px 100px;
+}
+
+.Loading > div div:nth-child(1) {
+    transform: rotate(45deg) translate(30px, 30px);
+}
+
+.Loading > div div:nth-child(2) {
+    transform: rotate(37.8deg) translate(30px, 30px);;
+}
+
+.Loading > div div:nth-child(3) {
+    width: 0;
+    height: 0;
+    border: 18px solid;
+    border-color: transparent transparent transparent #87d6e6;
+    transform: translate(100px, 21px);
+}
+
+.snippet {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    overflow: hidden;
+    background: transparent;
+}
+
+.Loading {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: translateZ(0) scale(1);
+    backface-visibility: hidden;
+    transform-origin: 0 0; /* see note above */
+}
+
+.Loading div { box-sizing: content-box; }

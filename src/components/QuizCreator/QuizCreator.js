@@ -35,8 +35,12 @@ class QuizCreator extends Component {
     formControls: createFormControl()
   }
 
-  handleButtonTestClick = () => {
-    console.log(this.state.quiz)
+  handleButtonTestClick = async () => {
+    try {
+      await fetch('https://quiz-49026-default-rtdb.europe-west1.firebasedatabase.app/quiz.json',{method: 'POST', body: JSON.stringify(this.state.quiz)})
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   handleButtonQuestionClick = () => {
