@@ -1,18 +1,14 @@
 import {NavLink} from 'react-router-dom'
 import {Component} from 'react'
+import {connect} from 'react-redux'
 import Loading from "../Loading/Loading";
 import classes from './QuizList.module.css'
-
+import {getQuiz} from "../../redux/actions/quiz";
 
 
 class QuizList extends Component {
-  state = {
-    loading: true,
-    quizServer: []
-  }
-
   renderQuiz = () => {
-    return this.state.quizServer.map((quiz) => {
+    return this.props.quizServer.map((quiz) => {
       return (
         <li
           key={quiz.id}
@@ -28,27 +24,7 @@ class QuizList extends Component {
   }
 
   async componentDidMount() {
-    try {
-      const data = await fetch('https://quiz-49026-default-rtdb.europe-west1.firebasedatabase.app/quiz.json')
-        .then((response) => response.json())
-
-      const quizServer = []
-
-      Object.keys(data).forEach((key, index) => {
-        quizServer.push({
-          id: key,
-          name: `Тест № ${index + 1}`
-        })
-      })
-
-
-      this.setState({
-        quizServer,
-        loading: false
-      })
-    } catch (error) {
-      console.log(error)
-    }
+    this.props.getQuiz()
   }
 
   render() {
@@ -56,7 +32,7 @@ class QuizList extends Component {
       <div className={classes.QuizList}>
         <h1>Список вопросов</h1>
         {
-          this.state.loading ?
+          this.props.loading ?
             <Loading/>
             :
             null
@@ -70,4 +46,13 @@ class QuizList extends Component {
   }
 }
 
-export default  QuizList;
+const mapStateToProps = (state) => ({
+  quizServer: state.quiz.quizServer,
+  loading: state.quiz.loading
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  getQuiz: () => dispatch(getQuiz())
+})
+
+export default  connect(mapStateToProps, mapDispatchToProps)(QuizList);

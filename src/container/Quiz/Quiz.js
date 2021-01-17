@@ -3,15 +3,17 @@ import classes from './Quiz.module.css'
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinichedQuiz/FinishedQuiz";
 import Loading from "../../components/Loading/Loading";
+import {connect} from "react-redux";
+import {getCurrentQuiz} from "../../redux/actions/quiz";
 
 class Quiz extends Component {
-  state = {
-    loading: true,
-    answerClasses: null,
-    results: {},
-    activeQuestionId: 1,
-    quiz: []
-  }
+  // state = {
+  //   loading: true,
+  //   answerClasses: null,
+  //   results: {},
+  //   activeQuestionId: 1,
+  //   quiz: []
+  // }
 
   handlerResetClick = () => {
     this.setState({
@@ -22,14 +24,13 @@ class Quiz extends Component {
   }
 
   handlerAnswerClick = (id) => {
-    if (this.state.answerClasses && this.state.answerClasses[id] === 'current') {
+    if (this.props.answerClasses && this.props.answerClasses[id] === 'current') {
       return;
     }
-    const answer = +this.state.quiz[this.state.activeQuestionId - 1].correctAnswerId === id ? 'current' : 'error'
-    const results = this.state.results;
-    results[this.state.activeQuestionId] = answer
+    const answer = +this.props.quiz[this.props.activeQuestionId - 1].correctAnswerId === id ? 'current' : 'error'
+    const results = this.props.results;
+    results[this.props.activeQuestionId] = answer
 
-    console.log(this.state.results)
     this.setState({
       answerClasses: {
         [id]: answer
@@ -39,7 +40,7 @@ class Quiz extends Component {
 
     const timer = setTimeout(() => {
       this.setState({
-        activeQuestionId: this.state.activeQuestionId + 1,
+        activeQuestionId: this.props.activeQuestionId + 1,
         answerClasses: null
       })
 
@@ -47,20 +48,8 @@ class Quiz extends Component {
     }, 1000)
   }
 
-  async componentDidMount() {
-    try {
-      const data = await fetch(`https://quiz-49026-default-rtdb.europe-west1.firebasedatabase.app/quiz/${this.props.match.params.id}.json`)
-        .then((response) => response.json())
-
-
-      this.setState({
-        quiz: data,
-        loading: false
-      })
-    } catch(err) {
-      console.log(err)
-    }
-
+  componentDidMount() {
+    this.props.getCurrentQuiz(this.props.match.params.id)
   }
 
   render() {
@@ -68,23 +57,23 @@ class Quiz extends Component {
       <div className={classes.Quiz}>
         <h1>Ответить на вопросы</h1>
         {
-          this.state.loading ?
+          this.props.loading ?
           <Loading/> :
-          this.state.quiz.length + 1 <= this.state.activeQuestionId ?
+          this.props.quiz.length + 1 <= this.props.activeQuestionId ?
             <FinishedQuiz
-              quizLength={this.state.quiz.length}
-              quiz={this.state.quiz}
-              results={this.state.results}
+              quizLength={this.props.quiz.length}
+              quiz={this.props.quiz}
+              results={this.props.results}
               onResetClick={this.handlerResetClick}
             />
             :
             <ActiveQuiz
-              answers={this.state.quiz[this.state.activeQuestionId - 1].answers}
-              question={this.state.quiz[this.state.activeQuestionId - 1].question}
+              answers={this.props.quiz[this.props.activeQuestionId - 1].answers}
+              question={this.props.quiz[this.props.activeQuestionId - 1].question}
               onAnswerClick={this.handlerAnswerClick}
-              activeQuestion={this.state.activeQuestionId}
-              quizLength={this.state.quiz.length}
-              answerClasses={this.state.answerClasses}
+              activeQuestion={this.props.activeQuestionId}
+              quizLength={this.props.quiz.length}
+              answerClasses={this.props.answerClasses}
             />
         }
 
@@ -93,4 +82,15 @@ class Quiz extends Component {
   }
 }
 
-export default Quiz;
+const mapStateToProps = (state) => ({
+    loading: state.quiz.loading,
+    answerClasses: state.quiz.answerClasses,
+    results: state.quiz.results,
+    activeQuestionId: state.quiz.activeQuestionId,
+    quiz: state.quiz.quiz
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  getCurrentQuiz: (id) => dispatch(getCurrentQuiz(id))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Quiz);
