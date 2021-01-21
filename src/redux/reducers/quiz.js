@@ -35,6 +35,25 @@ export const reducerQuiz = (state = initialState, action) => {
         errorText: action.payload,
         loading: false
       }
+    case ActionQuizType.ANSWER_QUIZ:
+      return {
+        ...state,
+        answerClasses: action.payload,
+        results: action.results
+      }
+    case ActionQuizType.ANSWER_NEXT_STEP:
+      return {
+        ...state,
+        answerClasses: action.answerClasses,
+        activeQuestionId: action.payload + 1
+      }
+    case ActionQuizType.RESET_QUIZ:
+      return {
+        ...state,
+        answerClasses: null,
+        results: {},
+        activeQuestionId: 1,
+      }
     default:
       return state
   }

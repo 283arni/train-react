@@ -4,52 +4,16 @@ import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinichedQuiz/FinishedQuiz";
 import Loading from "../../components/Loading/Loading";
 import {connect} from "react-redux";
-import {getCurrentQuiz} from "../../redux/actions/quiz";
+import {getCurrentQuiz, onAnswerClick, onResetClick} from "../../redux/actions/quiz";
 
 class Quiz extends Component {
-  // state = {
-  //   loading: true,
-  //   answerClasses: null,
-  //   results: {},
-  //   activeQuestionId: 1,
-  //   quiz: []
-  // }
-
-  handlerResetClick = () => {
-    this.setState({
-      answerClasses: null,
-      results: {},
-      activeQuestionId: 1,
-    })
-  }
-
-  handlerAnswerClick = (id) => {
-    if (this.props.answerClasses && this.props.answerClasses[id] === 'current') {
-      return;
-    }
-    const answer = +this.props.quiz[this.props.activeQuestionId - 1].correctAnswerId === id ? 'current' : 'error'
-    const results = this.props.results;
-    results[this.props.activeQuestionId] = answer
-
-    this.setState({
-      answerClasses: {
-        [id]: answer
-      },
-      results
-    })
-
-    const timer = setTimeout(() => {
-      this.setState({
-        activeQuestionId: this.props.activeQuestionId + 1,
-        answerClasses: null
-      })
-
-      clearTimeout(timer)
-    }, 1000)
-  }
 
   componentDidMount() {
     this.props.getCurrentQuiz(this.props.match.params.id)
+  }
+
+  componentWillUnmount() {
+    this.props.onResetClick()
   }
 
   render() {
@@ -64,13 +28,13 @@ class Quiz extends Component {
               quizLength={this.props.quiz.length}
               quiz={this.props.quiz}
               results={this.props.results}
-              onResetClick={this.handlerResetClick}
+              onResetClick={this.props.onResetClick}
             />
             :
             <ActiveQuiz
               answers={this.props.quiz[this.props.activeQuestionId - 1].answers}
               question={this.props.quiz[this.props.activeQuestionId - 1].question}
-              onAnswerClick={this.handlerAnswerClick}
+              onAnswerClick={this.props.onAnswerClick}
               activeQuestion={this.props.activeQuestionId}
               quizLength={this.props.quiz.length}
               answerClasses={this.props.answerClasses}
@@ -91,6 +55,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getCurrentQuiz: (id) => dispatch(getCurrentQuiz(id))
+  getCurrentQuiz: (id) => dispatch(getCurrentQuiz(id)),
+  onAnswerClick: (id) => dispatch(onAnswerClick(id)),
+  onResetClick: () => dispatch(onResetClick())
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(Quiz);

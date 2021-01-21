@@ -40,6 +40,37 @@ export const getCurrentQuiz = (id) => {
   }
 }
 
+export const onAnswerClick = (id) => {
+  return (dispatch, getState) => {
+
+    const state = getState().quiz
+
+    if (state.answerClasses && state.answerClasses[id] === 'current') {
+      return;
+    }
+    const answer = +state.quiz[state.activeQuestionId - 1].correctAnswerId === id ? 'current' : 'error'
+    const results = state.results;
+
+    results[state.activeQuestionId] = answer
+
+    dispatch(fetchAnswer({
+          [id]: answer
+        }, results))
+
+    const timer = setTimeout(() => {
+      dispatch(fetchNextStep(state.activeQuestionId, null))
+
+      clearTimeout(timer)
+    }, 1000)
+  }
+}
+
+export const onResetClick = () => {
+  return (dispatch) => {
+    dispatch(fetchReset())
+  }
+}
+
 const fetchStart = () => ({
   type: ActionQuizType.ACTION_QUIZ_START
 })
@@ -57,4 +88,20 @@ const fetchSuccessToId = (test) => ({
 const fetchError = (error) => ({
   type: ActionQuizType.ACTION_QUIZ_ERROR,
   payload: error
+})
+
+const fetchAnswer = (answerClass, results) => ({
+  type: ActionQuizType.ANSWER_QUIZ,
+  payload: answerClass,
+  results
+})
+
+const fetchNextStep = (id, answerClasses) => ({
+  type: ActionQuizType.ANSWER_NEXT_STEP,
+  payload: id,
+  answerClasses
+})
+
+const fetchReset = () => ({
+  type:ActionQuizType.RESET_QUIZ
 })
