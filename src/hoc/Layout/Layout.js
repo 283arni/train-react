@@ -2,6 +2,7 @@ import {Component} from 'react';
 import classes from './Layout.module.css'
 import Menu from "../../components/Menu/Menu";
 import MenuNav from "../../components/MenuNav/MenuNav";
+import {connect} from "react-redux";
 
 class Layout extends Component {
 
@@ -21,6 +22,7 @@ class Layout extends Component {
         <MenuNav
           isOpen={this.state.isOpen}
           onOpenMenuClick={this.handleOpenMenuClick}
+          isAuth={this.props.isAuth}
         />
         <div className={classes.nav}>
           <Menu
@@ -36,4 +38,8 @@ class Layout extends Component {
   }
 }
 
-export default Layout;
+const  mapStateToProps = (state) => ({
+  isAuth: !!state.auth.token
+})
+
+export default connect(mapStateToProps)(Layout);

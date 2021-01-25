@@ -32,7 +32,6 @@ export const getCurrentQuiz = (id) => {
       const data = await fetch(`https://quiz-49026-default-rtdb.europe-west1.firebasedatabase.app/quiz/${id}.json`)
         .then((response) => response.json())
 
-      console.log(data)
       dispatch(fetchSuccessToId(data))
     } catch(error) {
       dispatch(fetchError(error))

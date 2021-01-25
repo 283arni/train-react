@@ -1,9 +1,11 @@
 import {Component, Fragment} from 'react';
+import {connect} from 'react-redux';
 import ButtonRepeat from "../ButtonRepeat/ButtonRepeat";
 import Field from "../Field/Field";
 import createControl from "../../utils";
 import Select from "../Select/Select";
 import classes from './QuizCreator.module.css'
+import {createQuestion, createTest} from "../../redux/actions/creator";
 
 const createFormControl = () => {
   return {
@@ -35,14 +37,6 @@ class QuizCreator extends Component {
     formControls: createFormControl()
   }
 
-  handleButtonTestClick = async () => {
-    try {
-      await fetch('https://quiz-49026-default-rtdb.europe-west1.firebasedatabase.app/quiz.json',{method: 'POST', body: JSON.stringify(this.state.quiz)})
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   handleButtonQuestionClick = () => {
     const copyQuiz = this.state.quiz.concat();
     const index = copyQuiz.length + 1
@@ -72,11 +66,10 @@ class QuizCreator extends Component {
       ]
     }
 
-    copyQuiz.push(quizItem)
+    this.props.createQuestion(quizItem)
 
 
     this.setState({
-      quiz: copyQuiz,
       isFormValid: false,
       selectChangedValue: 1,
       formControls: createFormControl()
@@ -85,7 +78,6 @@ class QuizCreator extends Component {
   }
 
   handleSelectChange = (value) => {
-    console.log(this.state)
     this.setState({
       selectChangedValue: value
     })
@@ -164,8 +156,8 @@ class QuizCreator extends Component {
 
           <ButtonRepeat
             type="success"
-            disabled={!this.state.quiz.length}
-            onResetClick={this.handleButtonTestClick}
+            disabled={!this.props.quiz.length}
+            onResetClick={this.props.onButtonTestClick}
           >
             Создать тест
           </ButtonRepeat>
@@ -183,4 +175,13 @@ class QuizCreator extends Component {
   }
 }
 
-export default  QuizCreator;
+const mapStateToProps = (state) => ({
+  quiz: state.creator.quiz
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  createQuestion: (item) => dispatch(createQuestion(item)),
+  onButtonTestClick: () => dispatch(createTest())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuizCreator) ;
